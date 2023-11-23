@@ -1,0 +1,59 @@
+create schema instagram;
+use instagram;
+
+create table if not exists usuario(
+ Id_usuario int primary key not null,
+ Nome_de_Usuário varchar(100) not null,
+ Data_de_Nascimento date not null);
+ 
+ create table if not exists postagens(
+ Id_postagens int primary key not null,
+ Texto varchar(255) not null,
+ Data_Hora datetime not null,
+ id_usuario int,
+ constraint id_usuario foreign key (id_usuario) references usuario(id_usuario)
+ );
+ 
+ create table if not exists comentarios(
+ Id_comentarios int primary key not null,
+ Texto varchar(255) not null,
+ Data_Hora datetime not null,
+ Id_usuario int,
+ constraint Id_usuario_cmd foreign key (Id_usuario) references usuario(Id_usuario),
+ Id_postagens int,
+ constraint Id_postagens_cra foreign key (Id_postagens) references postagens(Id_postagens)
+ );
+ 
+ create table if not exists amizades(
+id_amizades int primary key not null,
+id_usuario1 int,
+constraint id_usuario1_ti foreign key (id_usuario1) references usuario(id_usuario),
+id_usuario2 int,
+constraint id_usuario2_ta foreign key (id_usuario2) references usuario(id_usuario),
+Data_de_Conexão date not null
+);
+
+    
+    create table if not exists curtidas(
+    id_curtidas int primary key not null,
+	id_usuario int,
+    constraint id_usuario_comentario foreign key (id_usuario) references usuario(id_usuario),
+    id_postagens int,
+    constraint id_postagens foreign key (id_postagens) references postagens(id_postagens),
+    Data date not null
+    );
+    
+    create table if not exists grupos(
+    id_grupos int primary key not null,
+    nome varchar(50),
+    descricao varchar(255)
+    );
+    
+    create table if not exists membros(
+    id_membros int primary key not null,
+    id_usuario int,
+    constraint id_usuario_cm foreign key (id_usuario) references usuario(id_usuario),
+    id_grupos int,
+    constraint id_grupos foreign key (id_grupos) references grupos(id_grupos),
+    data_adesao date not null
+    );
