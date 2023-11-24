@@ -6,30 +6,47 @@ create table if not exists usuario(
  Nome_de_Usuário varchar(100) not null,
  Data_de_Nascimento date not null);
  
+ -- Recupere todos os usuários da tabela USUARIOS
+ select * from usuarios;
+ 
+ insert into usuario
+(Id_usuario, nome, email)
+values
+(1, 'Bernardo Mendes', 'email1@gmail.com'),
+(2, 'Breno Daher', 'email2@gmail.com'),
+(3, 'Giseli Rosa', 'email3@gmail.com');
+
+ 
  create table if not exists postagens(
  Id_postagens int primary key not null,
- Texto varchar(255) not null,
+ Texto text not null,
  Data_Hora datetime not null,
  id_usuario int,
  constraint id_usuario foreign key (id_usuario) references usuario(id_usuario)
  );
  
+ select postagens.Texto, postagens.Data_Hora, usuario.nome
+ from postagens
+ join usuario on postagens.Id_usuario = usuario.id
+ where postagens.id = [Id_postagens];
+
  create table if not exists comentarios(
- Id_comentarios int primary key not null,
+ Id_comentarios int prim
+ ary key not null,
  Texto varchar(255) not null,
  Data_Hora datetime not null,
  Id_usuario int,
- constraint Id_usuario_cmd foreign key (Id_usuario) references usuario(Id_usuario),
+ constraint user_coment foreign key (Id_usuario) references usuario(Id_usuario),
  Id_postagens int,
- constraint Id_postagens_cra foreign key (Id_postagens) references postagens(Id_postagens)
+ constraint post_coment foreign key (Id_postagens) references postagens(Id_postagens)
  );
  
  create table if not exists amizades(
 id_amizades int primary key not null,
 id_usuario1 int,
-constraint id_usuario1_ti foreign key (id_usuario1) references usuario(id_usuario),
+constraint user1_friend foreign key (id_usuario1) references usuario(id_usuario),
 id_usuario2 int,
-constraint id_usuario2_ta foreign key (id_usuario2) references usuario(id_usuario),
+constraint user2_friend foreign key (id_usuario2) references usuario(id_usuario),
 Data_de_Conexão date not null
 );
 
@@ -52,8 +69,8 @@ Data_de_Conexão date not null
     create table if not exists membros(
     id_membros int primary key not null,
     id_usuario int,
-    constraint id_usuario_cm foreign key (id_usuario) references usuario(id_usuario),
+    constraint user_member foreign key (id_usuario) references usuario(id_usuario),
     id_grupos int,
-    constraint id_grupos foreign key (id_grupos) references grupos(id_grupos),
+    constraint group_member foreign key (id_grupos) references grupos(id_grupos),
     data_adesao date not null
     );
